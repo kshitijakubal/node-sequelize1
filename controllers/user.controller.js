@@ -77,3 +77,18 @@ exports.deleteUser = (req,res)=>{
         })
     })
 }
+// get user with id
+exports.getOneUser = (req,res) => {
+    const id = req.params.id;
+    userModel.findByPk(id)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving User with id=" + id
+      });
+    });
+}
+
+
