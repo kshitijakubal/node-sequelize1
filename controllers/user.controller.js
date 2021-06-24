@@ -1,9 +1,11 @@
 const db = require('../models');
 const userModel = db.users;
+// CRUD Operations
 const Save = require('../core/v1/user/save')
-const Op = db.Sequelize.Op;
+const findall = require('../core/v1/user/find');
 
 const {addUser} = new Save();
+const {findAll} = new findall();
 
 
 // exports.add_user = (req,res) => {
@@ -32,6 +34,14 @@ const {addUser} = new Save();
 
 const AddUser = async(body) => {
     const result = await addUser(body);
+    return result;
+}
+
+const FindAllUsers = async() => {
+    const result = await findAll();
+    // const finalResult = result.map(item => {
+    //     name_email: item.name+' '+item.email
+    // })
     return result;
 }
 
@@ -99,5 +109,5 @@ exports.getOneUser = (req,res) => {
     });
 }
 
-module.exports = {AddUser}
+module.exports = {AddUser,FindAllUsers}
 

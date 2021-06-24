@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const {AddUser} = require('../controllers/user.controller')
+const {AddUser,FindAllUsers} = require('../controllers/user.controller')
 
 router.post('/addUser',(req,res)=>{
     const body = req.body;
@@ -18,7 +18,20 @@ router.post('/addUser',(req,res)=>{
             });
     })
 
-// router.get('/getAllUser',userController.findAll);
+router.get('/getAllUsers',(req,res)=>{
+    FindAllUsers()
+    .then(data => {
+        res.status(200).json({
+            result:data
+        })
+    })
+    .catch(err => {
+        res.status(500).json({
+            Error:err
+        })
+    })
+})
+
 // router.get('/getOneUser/:id',userController.getOneUser)
 // router.put('/updateUser/:id',userController.update_user);
 // router.delete('/deleteUser/:id',userController.deleteUser);
