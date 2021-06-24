@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const {AddUser,FindAllUsers} = require('../controllers/user.controller')
+const {AddUser,FindAllUsers,UpdateUser,DeleteUser} = require('../controllers/user.controller')
 
 router.post('/addUser',(req,res)=>{
     const body = req.body;
@@ -32,8 +32,39 @@ router.get('/getAllUsers',(req,res)=>{
     })
 })
 
+router.put('/updateUser/:id',(req,res) => {
+    const id = req.params.id;
+    const body = req.body;
+    UpdateUser(id,body)
+    .then(data=>{
+        res.status(200).json({
+            message:'User updated',
+            result:data
+        })
+    })
+    .catch(err=>{
+        res.status(500).json({
+            Error_message:err
+        })
+    })
+    
+});
+router.delete('/deleteUser/:id',(req,res)=>{
+    const id = req.params.id;
+    DeleteUser(id)
+    .then(data=>{
+        res.status(200).json({
+            message:`User with id ${id} deleted`
+        })
+    })
+    .catch(err => {
+        res.status(500).json({
+            Error:err
+        })
+    })
+});
+
 // router.get('/getOneUser/:id',userController.getOneUser)
-// router.put('/updateUser/:id',userController.update_user);
-// router.delete('/deleteUser/:id',userController.deleteUser);
+// 
 
 module.exports = router;

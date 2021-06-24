@@ -3,9 +3,13 @@ const userModel = db.users;
 // CRUD Operations
 const Save = require('../core/v1/user/save')
 const findall = require('../core/v1/user/find');
+const Update = require('../core/v1/user/update')
+const Delete = require('../core/v1/user/delete')
 
 const {addUser} = new Save();
 const {findAll} = new findall();
+const {updateUser} = new Update();
+const {deleteUser} = new Delete();
 
 
 // exports.add_user = (req,res) => {
@@ -46,54 +50,14 @@ const FindAllUsers = async() => {
 }
 
 // update user
-exports.update_user = (req,res) => {
-    const id = req.params.id;
-    userModel.update(req.body, {
-        where: {id: id}
-    })
-    .then(num => {
-        if(num == 1){
-            res.status(200).json({
-                message:"User updated successfully"
-            })
-        }
-        else{
-            res.send({
-                message:`Could not update user with id ${id}. User not found or req.body empty!`
-            })
-        }
-    })
-    .catch(err => {
-        res.status(500).json({
-            message:"Error while update id "+id
-        })
-    })
+const UpdateUser = async(param,body) => {
+    const result = await updateUser(param,body);
+    return result;
 }
-
 // delete 
-exports.deleteUser = (req,res)=>{
-    const id = req.params.id;
-
-    userModel.destroy({
-        where: {id:id}
-    })
-    .then(num => {
-        if(num ==1 ){
-            res.status(200).json({
-                message:`User with id ${id} deleted successfully`
-            })
-        }
-        else{
-            res.send({
-                message:`Cannot delete User with id ${id}. Maybe User not found`
-            })
-        }
-    })
-    .catch(err => {
-        res.status(500).json({
-            message:err
-        })
-    })
+const DeleteUser = async(param) => {
+    const result = await deleteUser(param);
+    return result;
 }
 // get user with id
 exports.getOneUser = (req,res) => {
@@ -109,5 +73,5 @@ exports.getOneUser = (req,res) => {
     });
 }
 
-module.exports = {AddUser,FindAllUsers}
+module.exports = {AddUser,FindAllUsers,UpdateUser,DeleteUser}
 
