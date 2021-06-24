@@ -16,3 +16,13 @@ exports.add_user = (req,res) => {
         res.status(500).json(err)
     })
 }
+exports.findAll = (req,res) => {
+    userModel.findAll()
+    .then(userData=>{
+        res.status(200).json(userData)
+    })
+    .catch(err=>{
+        res.status(500).json(err)
+    })
+}
+
