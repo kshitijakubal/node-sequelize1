@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const {AddUser,FindAllUsers,UpdateUser,DeleteUser} = require('../controllers/user.controller')
+const {AddUser,FindAllUsers,UpdateUser,DeleteUser,FindOneUser} = require('../controllers/user.controller')
 
 router.post('/addUser',(req,res)=>{
     const body = req.body;
@@ -64,7 +64,20 @@ router.delete('/deleteUser/:id',(req,res)=>{
     })
 });
 
-// router.get('/getOneUser/:id',userController.getOneUser)
-// 
+router.get('/getOneUser/:id',(req,res)=>{
+    const id = req.params.id;
+    FindOneUser(id)
+    .then(data => {
+        res.status(200).json({
+           result:data 
+        })
+    })
+    .catch(err => {
+        res.status(500).json({
+            Error:err
+        })
+    })
+})
+
 
 module.exports = router;

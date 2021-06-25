@@ -5,11 +5,13 @@ const Save = require('../core/v1/user/save')
 const findall = require('../core/v1/user/find');
 const Update = require('../core/v1/user/update')
 const Delete = require('../core/v1/user/delete')
+const FindOne = require('../core/v1/user/findone')
 
 const {addUser} = new Save();
 const {findAll} = new findall();
 const {updateUser} = new Update();
 const {deleteUser} = new Delete();
+const {findOne} = new FindOne();
 
 
 // exports.add_user = (req,res) => {
@@ -60,18 +62,10 @@ const DeleteUser = async(param) => {
     return result;
 }
 // get user with id
-exports.getOneUser = (req,res) => {
-    const id = req.params.id;
-    userModel.findByPk(id)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error retrieving User with id=" + id
-      });
-    });
+const FindOneUser = async(param) =>{
+  const result = await findOne(param);
+  return result;
 }
 
-module.exports = {AddUser,FindAllUsers,UpdateUser,DeleteUser}
+module.exports = {AddUser,FindAllUsers,UpdateUser,DeleteUser,FindOneUser}
 
